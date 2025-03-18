@@ -5,14 +5,38 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="8160b46f-4730-4777-97b1-35f193c4e3f5" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/tufinca/src/main/java/com/gestion/tufinca/config/SwaggerConfig.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/tufinca/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/tufinca/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tufinca/src/main/java/com/gestion/tufinca/TufincaApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/tufinca/src/main/java/com/gestion/tufinca/TufincaApplication.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tufinca/src/main/java/com/gestion/tufinca/controllers/PropiedadController.java" beforeDir="false" afterPath="$PROJECT_DIR$/tufinca/src/main/java/com/gestion/tufinca/controllers/PropiedadController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tufinca/src/main/java/com/gestion/tufinca/controllers/dto/PropiedadDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/tufinca/src/main/java/com/gestion/tufinca/controllers/dto/PropiedadDTO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tufinca/src/main/java/com/gestion/tufinca/models/AdministradorMensajeModel.java" beforeDir="false" afterPath="$PROJECT_DIR$/tufinca/src/main/java/com/gestion/tufinca/models/AdministradorMensajeModel.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tufinca/src/main/java/com/gestion/tufinca/models/AdministradorModel.java" beforeDir="false" afterPath="$PROJECT_DIR$/tufinca/src/main/java/com/gestion/tufinca/models/AdministradorModel.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tufinca/src/main/java/com/gestion/tufinca/models/EtiquetaModel.java" beforeDir="false" afterPath="$PROJECT_DIR$/tufinca/src/main/java/com/gestion/tufinca/models/EtiquetaModel.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/tufinca/src/main/java/com/gestion/tufinca/models/MediaModel.java" beforeDir="false" afterPath="$PROJECT_DIR$/tufinca/src/main/java/com/gestion/tufinca/models/MediaModel.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/tufinca/src/main/java/com/gestion/tufinca/models/MensajeModel.java" beforeDir="false" afterPath="$PROJECT_DIR$/tufinca/src/main/java/com/gestion/tufinca/models/MensajeModel.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/tufinca/src/main/java/com/gestion/tufinca/models/PropiedadEtiquetaModel.java" beforeDir="false" afterPath="$PROJECT_DIR$/tufinca/src/main/java/com/gestion/tufinca/models/PropiedadEtiquetaModel.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/tufinca/src/main/java/com/gestion/tufinca/models/PropiedadModel.java" beforeDir="false" afterPath="$PROJECT_DIR$/tufinca/src/main/java/com/gestion/tufinca/models/PropiedadModel.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tufinca/src/main/java/com/gestion/tufinca/repositories/IPropiedadEtiquetaRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/tufinca/src/main/java/com/gestion/tufinca/repositories/IPropiedadEtiquetaRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tufinca/src/main/java/com/gestion/tufinca/persistence/IAdministradorDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/tufinca/src/main/java/com/gestion/tufinca/persistence/IAdministradorDAO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tufinca/src/main/java/com/gestion/tufinca/persistence/IAdministradorMensajeDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/tufinca/src/main/java/com/gestion/tufinca/persistence/IAdministradorMensajeDAO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tufinca/src/main/java/com/gestion/tufinca/persistence/IEtiquetaDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/tufinca/src/main/java/com/gestion/tufinca/persistence/IEtiquetaDAO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tufinca/src/main/java/com/gestion/tufinca/persistence/IMediaDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/tufinca/src/main/java/com/gestion/tufinca/persistence/IMediaDAO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tufinca/src/main/java/com/gestion/tufinca/persistence/IMensajeDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/tufinca/src/main/java/com/gestion/tufinca/persistence/IMensajeDAO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tufinca/src/main/java/com/gestion/tufinca/persistence/IPropiedadDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/tufinca/src/main/java/com/gestion/tufinca/persistence/IPropiedadDAO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tufinca/src/main/java/com/gestion/tufinca/persistence/IPropiedadEtiquetaDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/tufinca/src/main/java/com/gestion/tufinca/persistence/IPropiedadEtiquetaDAO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tufinca/src/main/java/com/gestion/tufinca/persistence/impl/AdministradorDAOImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/tufinca/src/main/java/com/gestion/tufinca/persistence/impl/AdministradorDAOImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tufinca/src/main/java/com/gestion/tufinca/persistence/impl/AdministradorMensajeDAOImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/tufinca/src/main/java/com/gestion/tufinca/persistence/impl/AdministradorMensajeDAOImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tufinca/src/main/java/com/gestion/tufinca/persistence/impl/EtiquetaDAOImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/tufinca/src/main/java/com/gestion/tufinca/persistence/impl/EtiquetaDAOImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tufinca/src/main/java/com/gestion/tufinca/persistence/impl/MediaDAOImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/tufinca/src/main/java/com/gestion/tufinca/persistence/impl/MediaDAOImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tufinca/src/main/java/com/gestion/tufinca/persistence/impl/MensajeDAOImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/tufinca/src/main/java/com/gestion/tufinca/persistence/impl/MensajeDAOImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tufinca/src/main/java/com/gestion/tufinca/persistence/impl/PropiedadDAOImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/tufinca/src/main/java/com/gestion/tufinca/persistence/impl/PropiedadDAOImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tufinca/src/main/java/com/gestion/tufinca/persistence/impl/PropiedadEtiquetaDAOImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/tufinca/src/main/java/com/gestion/tufinca/persistence/impl/PropiedadEtiquetaDAOImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tufinca/src/main/java/com/gestion/tufinca/repositories/IEtiquetaRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/tufinca/src/main/java/com/gestion/tufinca/repositories/IEtiquetaRepository.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/tufinca/src/main/java/com/gestion/tufinca/repositories/IPropiedadRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/tufinca/src/main/java/com/gestion/tufinca/repositories/IPropiedadRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tufinca/src/main/java/com/gestion/tufinca/services/IPropiedadService.java" beforeDir="false" afterPath="$PROJECT_DIR$/tufinca/src/main/java/com/gestion/tufinca/services/IPropiedadService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tufinca/src/main/java/com/gestion/tufinca/services/impl/PropiedadServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/tufinca/src/main/java/com/gestion/tufinca/services/impl/PropiedadServiceImpl.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/tufinca/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/tufinca/src/main/resources/application.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tufinca/src/test/java/com/gestion/tufinca/TufincaApplicationTests.java" beforeDir="false" afterPath="$PROJECT_DIR$/tufinca/src/test/java/com/gestion/tufinca/TufincaApplicationTests.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -36,7 +60,7 @@
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "git-widget-placeholder": "main",
     "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "C:/Users/Camilo/OneDrive - Universidad Sergio Arboleda/Escritorio/CodingProyects/Universidad/Septimo_Semestre/Gestion/tuFincaProyecto/backend/tufinca"
+    "last_opened_file_path": "C:/Users/Camilo/OneDrive - Universidad Sergio Arboleda/Escritorio/CodingProyects/Universidad/Septimo_Semestre/Gestion/tuFincaProyecto/backend"
   }
 }]]></component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
