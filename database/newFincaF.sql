@@ -1,10 +1,8 @@
-CREATE DATABASE  IF NOT EXISTS `tuFinca` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci */ /*!80016 DEFAULT ENCRYPTION='N' */;
-USE `tuFinca`;
--- MySQL dump 10.13  Distrib 8.0.36, for Linux (x86_64)
+-- MySQL dump 10.13  Distrib 8.0.40, for Win64 (x86_64)
 --
--- Host: 127.0.0.1    Database: tuFinca
+-- Host: 127.0.0.1    Database: tufinca
 -- ------------------------------------------------------
--- Server version	8.0.41-0ubuntu0.24.04.1
+-- Server version	8.0.40
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -56,9 +54,10 @@ DROP TABLE IF EXISTS `etiqueta`;
 CREATE TABLE `etiqueta` (
   `id` int NOT NULL AUTO_INCREMENT,
   `nombre` varchar(255) NOT NULL,
+  `tipoEtiqueta` enum('propiedad','categoria') NOT NULL DEFAULT 'categoria',
   PRIMARY KEY (`id`),
   UNIQUE KEY `UK18uj0p0ffr26vm9hc4voiwy3j` (`nombre`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -67,7 +66,7 @@ CREATE TABLE `etiqueta` (
 
 LOCK TABLES `etiqueta` WRITE;
 /*!40000 ALTER TABLE `etiqueta` DISABLE KEYS */;
-INSERT INTO `etiqueta` VALUES (1,'Apartamento'),(4,'Arriendo'),(2,'Finca');
+INSERT INTO `etiqueta` VALUES (1,'Apartamento','categoria'),(2,'Finca','categoria'),(3,'Casa','categoria');
 /*!40000 ALTER TABLE `etiqueta` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -86,7 +85,7 @@ CREATE TABLE `media` (
   PRIMARY KEY (`id`),
   KEY `fk_media_propiedad` (`propiedad_id`),
   CONSTRAINT `fk_media_propiedad` FOREIGN KEY (`propiedad_id`) REFERENCES `propiedad` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -95,7 +94,7 @@ CREATE TABLE `media` (
 
 LOCK TABLES `media` WRITE;
 /*!40000 ALTER TABLE `media` DISABLE KEYS */;
-INSERT INTO `media` VALUES (2,NULL,'https://miweb.com/imagenes/casa-campestre-video.mp4','video'),(3,NULL,'https://miweb.com/imagenes/casa-campestre.jpg','imagen'),(4,NULL,'https://miweb.com/imagenes/casa-campestre-video.mp4','video'),(5,NULL,'https://miweb.com/imagenes/casa-campestre.jpg','imagen'),(6,NULL,'https://miweb.com/imagenes/casa-campestre-video.mp4','video'),(7,NULL,'https://miweb.com/imagenes/casa-campestre.jpg','imagen'),(8,NULL,'https://miweb.com/imagenes/casa-campestre-video.mp4','video'),(9,NULL,'cataaa','video');
+INSERT INTO `media` VALUES (1,NULL,'https://miweb.com/imagenes/casa-campestre-video.mp4','video'),(2,NULL,'https://miweb.com/imagenes/casa-campestre.jpg','imagen'),(3,NULL,'https://miweb.com/imagenes/casa-campestre-video.mp4','video'),(4,NULL,'https://miweb.com/imagenes/casa-campestre.jpg','imagen'),(5,NULL,'https://miweb.com/imagenes/casa-campestre-video.mp4','video'),(6,NULL,'https://miweb.com/imagenes/casa-campestre.jpg','imagen'),(7,NULL,'https://miweb.com/imagenes/casa-campestre-video.mp4','video'),(8,NULL,'cataaa','video');
 /*!40000 ALTER TABLE `media` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -116,6 +115,7 @@ CREATE TABLE `mensaje` (
   `nombreCliente` varchar(255) NOT NULL,
   `gestion` enum('porLeer','realizado') NOT NULL,
   `administrador_id` int DEFAULT NULL,
+  `fecha` datetime DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
   KEY `fk_mensaje_propiedad` (`propiedad_id`),
   KEY `fk_mensaje_administrador` (`administrador_id`),
@@ -130,7 +130,7 @@ CREATE TABLE `mensaje` (
 
 LOCK TABLES `mensaje` WRITE;
 /*!40000 ALTER TABLE `mensaje` DISABLE KEYS */;
-INSERT INTO `mensaje` VALUES (2,NULL,'wuu','123','m@linda','hola','cataa','porLeer',NULL),(3,NULL,'buu','123','m@xxx','hola','santii','realizado',NULL),(4,NULL,'buuuuuu','123','m@xxx','holaaaaaaaaaaaaaaaaaaaaaaaaaa','santii','realizado',NULL);
+INSERT INTO `mensaje` VALUES (1,NULL,'wuu','123','m@linda','hola','cataa','porLeer',NULL,'2025-04-07 11:02:26'),(2,NULL,'buu','123','m@xxx','hola','santii','realizado',NULL,'2025-04-07 11:02:26'),(4,NULL,'buuuuuu','123','m@xxx','holaaaaaaaaaaaaaaaaaaaaaaaaaa','santii','realizado',NULL,'2025-04-07 11:02:26');
 /*!40000 ALTER TABLE `mensaje` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -155,7 +155,7 @@ CREATE TABLE `propiedad` (
   UNIQUE KEY `UKdo4ifshqs67ke7nksd9lhsil2` (`codigo`),
   KEY `fk_propiedad_administrador` (`administrador_id`),
   CONSTRAINT `fk_propiedad_administrador` FOREIGN KEY (`administrador_id`) REFERENCES `administrador` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -164,7 +164,7 @@ CREATE TABLE `propiedad` (
 
 LOCK TABLES `propiedad` WRITE;
 /*!40000 ALTER TABLE `propiedad` DISABLE KEYS */;
-INSERT INTO `propiedad` VALUES (2,250,300,10,4,'Casa amplia con 5 habitaciones, sala de estar con chimenea, cocina integral, 4 baños y un hermoso jardín. Ubicada en zona tranquila con excelente vista a las montañas.','Hermosa Casa Campestre en Sopó','Sopó','disponible');
+INSERT INTO `propiedad` VALUES (2,250,300,10,1,'Casa amplia con 5 habitaciones, sala de estar con chimenea, cocina integral, 4 baños y un hermoso jardín. Ubicada en zona tranquila con excelente vista a las montañas.','Hermosa Casa Campestre en Sopó','Sopó','disponible');
 /*!40000 ALTER TABLE `propiedad` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -191,7 +191,7 @@ CREATE TABLE `propiedadetiqueta` (
 
 LOCK TABLES `propiedadetiqueta` WRITE;
 /*!40000 ALTER TABLE `propiedadetiqueta` DISABLE KEYS */;
-INSERT INTO `propiedadetiqueta` VALUES (4,4);
+INSERT INTO `propiedadetiqueta` VALUES (3,1);
 /*!40000 ALTER TABLE `propiedadetiqueta` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -204,4 +204,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2025-03-26 20:47:11
+-- Dump completed on 2025-04-07 11:04:30
