@@ -3,12 +3,13 @@ import {
   FaComments,
   FaPlus,
   FaRegUser,
+  FaUserPlus
 } from "react-icons/fa";
 import { BsHousesFill, BsHouseDoorFill } from "react-icons/bs";
 import { useNavigate } from "react-router-dom";
 
 const Navbar = ({ onSectionChange }) => {
-  const navigate = useNavigate(); // Mover useNavigate aquí para usarlo en ambos componentes
+  const navigate = useNavigate();
 
   return (
     <>
@@ -95,6 +96,12 @@ const NavContent = ({ onSectionChange, navigate }) => {
           className={navItemClass}
         >
           <FaPlus className="mr-3" /> Agregar Propiedad
+        </button>
+        <button
+          onClick={() => onSectionChange("+admin")}
+          className={navItemClass}
+        >
+          <FaUserPlus className="mr-3" /> Agregar Admin
         </button>
       </nav>
 
