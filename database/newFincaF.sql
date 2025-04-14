@@ -66,7 +66,7 @@ CREATE TABLE `etiqueta` (
 
 LOCK TABLES `etiqueta` WRITE;
 /*!40000 ALTER TABLE `etiqueta` DISABLE KEYS */;
-INSERT INTO `etiqueta` VALUES (1,'Apartamento','categoria'),(2,'Finca','categoria'),(3,'Casa','categoria');
+INSERT INTO `etiqueta` VALUES (1,'Apartamento','propiedad'),(2,'Finca','propiedad'),(3,'Casa','propiedad');
 /*!40000 ALTER TABLE `etiqueta` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -94,7 +94,7 @@ CREATE TABLE `media` (
 
 LOCK TABLES `media` WRITE;
 /*!40000 ALTER TABLE `media` DISABLE KEYS */;
-INSERT INTO `media` VALUES (1,NULL,'https://miweb.com/imagenes/casa-campestre-video.mp4','video'),(2,NULL,'https://miweb.com/imagenes/casa-campestre.jpg','imagen'),(3,NULL,'https://miweb.com/imagenes/casa-campestre-video.mp4','video'),(4,NULL,'https://miweb.com/imagenes/casa-campestre.jpg','imagen'),(5,NULL,'https://miweb.com/imagenes/casa-campestre-video.mp4','video'),(6,NULL,'https://miweb.com/imagenes/casa-campestre.jpg','imagen'),(7,NULL,'https://miweb.com/imagenes/casa-campestre-video.mp4','video'),(8,NULL,'cataaa','video');
+INSERT INTO `media` VALUES (1,2,'https://picsum.photos/1200/800?random=1','imagen'),(2,1,'https://picsum.photos/1200/800?random=2','imagen'),(3,1,'https://picsum.photos/1200/800?random=3','imagen'),(4,2,'https://picsum.photos/1200/800?random=4','imagen'),(5,NULL,'https://picsum.photos/1200/800?random=5','imagen'),(6,NULL,'https://picsum.photos/1200/800?random=6','imagen'),(7,NULL,'https://picsum.photos/1200/800?random=7','imagen'),(8,NULL,'https://picsum.photos/1200/800?random=8','imagen');
 /*!40000 ALTER TABLE `media` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -147,7 +147,7 @@ CREATE TABLE `propiedad` (
   `areaTotal` float DEFAULT NULL,
   `codigo` int NOT NULL,
   `id` int NOT NULL AUTO_INCREMENT,
-  `descripción` varchar(255) DEFAULT NULL,
+  `descripción` varchar(2000) DEFAULT NULL,
   `titulo` varchar(255) NOT NULL,
   `ubicación` varchar(255) DEFAULT NULL,
   `estado` enum('disponible','vendido') NOT NULL,
@@ -155,7 +155,7 @@ CREATE TABLE `propiedad` (
   UNIQUE KEY `UKdo4ifshqs67ke7nksd9lhsil2` (`codigo`),
   KEY `fk_propiedad_administrador` (`administrador_id`),
   CONSTRAINT `fk_propiedad_administrador` FOREIGN KEY (`administrador_id`) REFERENCES `administrador` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -164,7 +164,7 @@ CREATE TABLE `propiedad` (
 
 LOCK TABLES `propiedad` WRITE;
 /*!40000 ALTER TABLE `propiedad` DISABLE KEYS */;
-INSERT INTO `propiedad` VALUES (2,250,300,10,1,'Casa amplia con 5 habitaciones, sala de estar con chimenea, cocina integral, 4 baños y un hermoso jardín. Ubicada en zona tranquila con excelente vista a las montañas.','Hermosa Casa Campestre en Sopó','Sopó','disponible');
+INSERT INTO `propiedad` VALUES (2,250,300,10,1,'Casa amplia con 5 habitaciones, sala de estar con chimenea, cocina integral, 4 baños y un hermoso jardín. Ubicada en zona tranquila con excelente vista a las montañas.','Hermosa Casa Campestre en Sopó','Sopó','disponible'),(2,0,51.23,8,2,'Habitación principal con baño privado y vestier, habitación secundaria ideal para familia o estudio, sala-comedor con excelente iluminación, cocina integral con horno y barra americana, zona de ropas independiente, balcón con vista exterior, parqueadero incluido. Amenidades del conjunto: piscina, zona BBQ, salón de eventos, gimnasio, ascensor en la torre.\n','Oportunidad de Apartamento en Tocancipá ','Tocancipá ','disponible');
 /*!40000 ALTER TABLE `propiedad` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -191,7 +191,7 @@ CREATE TABLE `propiedadetiqueta` (
 
 LOCK TABLES `propiedadetiqueta` WRITE;
 /*!40000 ALTER TABLE `propiedadetiqueta` DISABLE KEYS */;
-INSERT INTO `propiedadetiqueta` VALUES (3,1);
+INSERT INTO `propiedadetiqueta` VALUES (3,1),(1,2);
 /*!40000 ALTER TABLE `propiedadetiqueta` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -204,4 +204,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2025-04-07 11:04:30
+-- Dump completed on 2025-04-08 21:33:34
