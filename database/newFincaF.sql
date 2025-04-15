@@ -57,7 +57,7 @@ CREATE TABLE `etiqueta` (
   `tipoEtiqueta` enum('propiedad','categoria') NOT NULL DEFAULT 'categoria',
   PRIMARY KEY (`id`),
   UNIQUE KEY `UK18uj0p0ffr26vm9hc4voiwy3j` (`nombre`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -66,7 +66,7 @@ CREATE TABLE `etiqueta` (
 
 LOCK TABLES `etiqueta` WRITE;
 /*!40000 ALTER TABLE `etiqueta` DISABLE KEYS */;
-INSERT INTO `etiqueta` VALUES (1,'Apartamento','propiedad'),(2,'Finca','propiedad'),(3,'Casa','propiedad');
+INSERT INTO `etiqueta` VALUES (1,'Casa','propiedad'),(2,'Apartamento','propiedad'),(3,'Finca','propiedad'),(4,'Lote','propiedad'),(5,'Cabaña','propiedad');
 /*!40000 ALTER TABLE `etiqueta` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -85,7 +85,7 @@ CREATE TABLE `media` (
   PRIMARY KEY (`id`),
   KEY `fk_media_propiedad` (`propiedad_id`),
   CONSTRAINT `fk_media_propiedad` FOREIGN KEY (`propiedad_id`) REFERENCES `propiedad` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -94,7 +94,6 @@ CREATE TABLE `media` (
 
 LOCK TABLES `media` WRITE;
 /*!40000 ALTER TABLE `media` DISABLE KEYS */;
-INSERT INTO `media` VALUES (1,2,'https://picsum.photos/1200/800?random=1','imagen'),(2,1,'https://picsum.photos/1200/800?random=2','imagen'),(3,14,'/uploads/ad3f1e0e-5743-4927-ba6b-d6d146c6175e_videoPrueba.mp4','video'),(4,14,'/uploads/49ac7154-eb91-4395-b74a-d58082a25899_475508924_582108171466198_5327851886345590608_n.jpg','imagen'),(5,14,'/uploads/8825ed3b-289d-4a08-8b34-3ffb05a00089_475644512_582108061466209_6067436470124258531_n.jpg','imagen'),(6,14,'/uploads/c13fe3a8-b04f-446f-b69c-a69da2be1797_475671199_582108221466193_7468574575736510358_n.jpg','imagen'),(7,14,'/uploads/bade19f2-697e-4540-af95-57d638bf693d_475814338_582108064799542_4423731959928888794_n.jpg','imagen'),(8,15,'/uploads/2bca8e5b-3105-4c55-aee0-01d922602ea8_475382288_582108021466213_8475270891535671192_n.jpg','imagen'),(9,15,'/uploads/fb42bcb1-35c7-42e5-b9ac-0d0381f41abb_475530591_582108238132858_4828623901128241897_n.jpg','imagen'),(10,15,'/uploads/9f91bf45-5702-478d-ba2f-322fc97effcc_475547778_582108028132879_8907523781240623758_n.jpg','imagen'),(11,15,'/uploads/6fa7cf7c-773a-4f80-a531-baa75eff488e_475686573_582107881466227_6766978271936131171_n.jpg','imagen'),(12,15,'/uploads/0878d3b4-4ac0-42fe-b9fa-cbe3c965aa14_475769207_582108018132880_3508143763220806909_n.jpg','imagen'),(13,15,'/uploads/323b47ea-9bab-4b3b-a9c0-f810c4adf1dd_475808713_582107998132882_1324031136612458045_n.jpg','imagen'),(14,15,'/uploads/1a640327-71fd-4279-940a-048897aa07de_475896702_582108024799546_6281198610520705642_n.jpg','imagen');
 /*!40000 ALTER TABLE `media` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -155,7 +154,7 @@ CREATE TABLE `propiedad` (
   UNIQUE KEY `UKdo4ifshqs67ke7nksd9lhsil2` (`codigo`),
   KEY `fk_propiedad_administrador` (`administrador_id`),
   CONSTRAINT `fk_propiedad_administrador` FOREIGN KEY (`administrador_id`) REFERENCES `administrador` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -164,7 +163,7 @@ CREATE TABLE `propiedad` (
 
 LOCK TABLES `propiedad` WRITE;
 /*!40000 ALTER TABLE `propiedad` DISABLE KEYS */;
-INSERT INTO `propiedad` VALUES (2,250,300,'10',1,'Casa amplia con 5 habitaciones, sala de estar con chimenea, cocina integral, 4 baños y un hermoso jardín. Ubicada en zona tranquila con excelente vista a las montañas.','Hermosa Casa Campestre en Sopó','Sopó','disponible'),(2,0,51.23,'8',2,'Habitación principal con baño privado y vestier, habitación secundaria ideal para familia o estudio, sala-comedor con excelente iluminación, cocina integral con horno y barra americana, zona de ropas independiente, balcón con vista exterior, parqueadero incluido. Amenidades del conjunto: piscina, zona BBQ, salón de eventos, gimnasio, ascensor en la torre.\n','Oportunidad de Apartamento en Tocancipá ','Tocancipá ','disponible'),(NULL,0,56.1,'14',14,'? Acueducto\n⚡ Energía eléctrica\n? Alcantarillado\n✔ Aprobación para construcción:\n?️ Vivienda de hasta 4 niveles – Ideal para inversión o proyecto de vivienda familiar\n','Lote en La Vega','La Vega','disponible'),(NULL,0,300,'0037',15,'? 4 habitaciones con closets  \n? 3 baños, principal con baño privado  \n? Sala con chimenea y sala de estar  \n? Balcón con vista al jardín\n? Altillo y garaje privado\n? Cocina integral\n','Hermosa Casa en Guasca','Guasca','disponible');
+INSERT INTO `propiedad` VALUES (2,0,238.8,'0005',1,'? 3 locales comerciales con gran potencial de renta.\n?️ 4 habitaciones amplias y cómodas.\n? 3 baños bien distribuidos.\n?️ Sala-comedor espaciosa.\n?️ Cocina funcional.\n? Patio de ropas.\n? Servicios\n? Acueducto y alcantarillado.\n⚡ Energía eléctrica.\n? Vista privilegiada al parque principal de Guatavita.\n','¡Oportunidad Única en el Centro de Guatavita!','Guatavita','disponible'),(2,0,300,'0037',2,'? 4 habitaciones con closets  \n? 3 baños, principal con baño privado  \n? Sala con chimenea y sala de estar  \n? Balcón con vista al jardín\n? Altillo y garaje privado\n? Cocina integral\n','Hermosa Casa en Guasca','Guasca','disponible');
 /*!40000 ALTER TABLE `propiedad` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -191,7 +190,7 @@ CREATE TABLE `propiedadetiqueta` (
 
 LOCK TABLES `propiedadetiqueta` WRITE;
 /*!40000 ALTER TABLE `propiedadetiqueta` DISABLE KEYS */;
-INSERT INTO `propiedadetiqueta` VALUES (3,1),(1,2),(2,14),(3,15);
+INSERT INTO `propiedadetiqueta` VALUES (1,1),(1,2),(2,2);
 /*!40000 ALTER TABLE `propiedadetiqueta` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -204,4 +203,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2025-04-13 22:12:39
+-- Dump completed on 2025-04-15 11:12:21
