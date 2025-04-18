@@ -13,7 +13,9 @@ public interface IAdministradorDAO {
 
     Optional<AdministradorModel> getAdministradorByUsuario(String usuario);
 
-    void saveAdministrador(AdministradorModel administrador);
+    Optional<AdministradorModel> getAdministradorByCorreo(String correo);
+
+    AdministradorModel saveAdministrador(AdministradorModel administrador);
 
     void deleteAdministradorById(Integer id);
 }

@@ -1,9 +1,13 @@
 import { useState } from "react";
+import { useEffect } from "react";
 import { createContext, useContext } from "react";
+import Cookies from "js-cookie";
 import { usePropiedades } from "../hooks/usePropiedades";
 import { useEtiquetas } from "../hooks/useEtiquetas";
 import { useAdmins } from "../hooks/useAdmin";
 import { useMedias } from "../hooks/useMedias";
+import { useMensajes } from "../hooks/useMensajes";
+import apiClient from "../api/apiClient";
 
 const GlobalContext = createContext();
 
@@ -12,9 +16,77 @@ export const GlobalProvider = ({ children }) => {
   const etiquetas = useEtiquetas();
   const admins = useAdmins();
   const medias = useMedias();
+  const mensajes = useMensajes();
+  const [_, forceUpdate] = useState({});
 
-  const [mensajes, setMensajes] = useState([]);
-  const [admin, setAdmin] = useState();
+  const [admin, setAdmin] = useState(null);
+  const [authLoading, setAuthLoading] = useState(true); // Nuevo estado de carga
+
+  const loginAdmin = async (authData) => {
+  try {
+    const response = await admins.loginAdmin(authData);
+    // Asegúrate de que la respuesta del backend incluya el ID
+    const { token, id, usuario, nombre, correo } = response; 
+    Cookies.set('authToken', token, { expires: 1 });
+
+    // Espera a que fetchAdminById obtenga los datos del administrador
+    const admin_temp = await admins.fetchAdminById(id); // Usa await aquí
+
+    // Ahora puedes acceder a admin_temp.contraseña
+    setAdmin({ 
+      id, 
+      usuario, 
+      nombre, 
+      correo, 
+      contraseña: admin_temp.contraseña, // Incluye la contraseña
+      mensajes: admin_temp.mensajes // Incluye los mensajes
+    });
+
+    return response;
+  } catch (error) {
+    console.error('Error al iniciar sesión:', error);
+    throw error;
+  } finally {
+    setAuthLoading(false);
+  }
+};
+
+useEffect(() => {
+  const token = Cookies.get("authToken");
+  if (token) {
+    apiClient
+      .get("/auth/validate-token")
+      .then(async (res) => {
+        // Usa fetchAdminById para obtener los datos completos del administrador
+        const admin_temp = await admins.fetchAdminById(res.id);
+
+        // Guarda los datos completos del administrador en el estado global
+        setAdmin({
+          id: admin_temp.id,
+          usuario: admin_temp.usuario,
+          nombre: admin_temp.nombre,
+          correo: admin_temp.correo,
+          contraseña: admin_temp.contraseña, // Incluye la contraseña
+          mensajes: admin_temp.mensajes, // Incluye los mensajes
+        });
+      })
+      .catch((err) => {
+        Cookies.remove("authToken");
+        setAdmin(null);
+      })
+      .finally(() => {
+        setAuthLoading(false);
+      });
+  } else {
+    setAuthLoading(false);
+  }
+}, []);
+
+  const logoutAdmin = () => {
+    Cookies.remove("authToken");
+    setAdmin(null);
+    forceUpdate({});
+  };
 
   return (
     <GlobalContext.Provider
@@ -45,7 +117,7 @@ export const GlobalProvider = ({ children }) => {
         setAdmins: admins.setAdmins,
         fetchAdmins: admins.fetchAdmins,
         fetchAdminById: admins.fetchAdminById,
-        createAdmin: admins.createAdmin,
+        registerAdmin: admins.saveAdmin,
         updateAdmin: admins.updateAdmin,
         deleteAdmin: admins.deleteAdmin,
         loadingAdmins: admins.loading,
@@ -65,12 +137,21 @@ export const GlobalProvider = ({ children }) => {
         resetErrorMedias: medias.resetError,
 
         // Mensajes
-        mensajes,
-        setMensajes,
+        mensajes: mensajes.mensajes,
+        loadingMensajes: mensajes.loading,
+        errorMensajes: mensajes.error,
+        crearMensaje: mensajes.crearMensaje,
+        actualizarMensaje: mensajes.actualizarMensaje,
+        eliminarMensaje: mensajes.eliminarMensaje,
+        fetchMensajes: mensajes.fetchMensajes,
+        reloadMensajes: mensajes.reloadData,
 
         // Autenticación
         admin,
         setAdmin,
+        loginAdmin,
+        logoutAdmin,
+        authLoading, // Exponemos el estado authLoading
       }}
     >
       {children}

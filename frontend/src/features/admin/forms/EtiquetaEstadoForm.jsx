@@ -5,7 +5,7 @@ import PopUpEtiqueta from "../components/etiquetas/PopUpEtiqueta";
 import { useGlobalContext } from "../../../context/GlobalContext";
 
 const EtiquetasEstadoForm = ({ propiedadData, handleChange }) => {
-  const { etiquetas, setEtiquetas } = useGlobalContext();
+  const { etiquetas, setEtiquetas, crearEtiqueta, eliminarEtiqueta:eliminarEtiquetaBackend } = useGlobalContext();
   const [etiquetasSeleccionadas, setEtiquetasSeleccionadas] = useState(
     propiedadData.etiquetas || []
   );
@@ -28,28 +28,68 @@ const EtiquetasEstadoForm = ({ propiedadData, handleChange }) => {
     );
   };
 
-  const eliminarEtiquetaDisponible = (nombreEtiqueta) => {
-    setEtiquetas(prev => prev.filter(e => e.nombre !== nombreEtiqueta));
+  const eliminarEtiquetaDisponible = async (nombreEtiqueta) => {
+    try {
+      // Encontrar la etiqueta completa
+      const etiquetaObj = etiquetas.find(e => e.nombre === nombreEtiqueta);
+      
+      if (!etiquetaObj) {
+        console.error("Etiqueta no encontrada:", nombreEtiqueta);
+        return;
+      }
+
+      // Eliminar del backend
+      await eliminarEtiquetaBackend(etiquetaObj.id);
+
+      // Actualizar estado global
+      setEtiquetas(prev => prev.filter(e => e.id !== etiquetaObj.id));
+
+      // Si estaba seleccionada, quitarla de las seleccionadas
+      setEtiquetasSeleccionadas(prev => 
+        prev.filter(e => e !== nombreEtiqueta)
+      );
+
+    } catch (error) {
+      console.error("Error al eliminar etiqueta:", error);
+      alert("No se pudo eliminar la etiqueta. Por favor, inténtalo de nuevo.");
+    }
   };
 
-  const agregarNuevaEtiqueta = async (nombreEtiqueta) => {
+  const agregarNuevaEtiqueta = async (etiquetaData) => {
+    const nombreLimpio = etiquetaData.nombre.trim();
+    
+    if (!nombreLimpio) {
+      alert("El nombre de la etiqueta no puede estar vacío");
+      return false;
+    }
+  
     // Validar que no exista ya
-    if (etiquetas.some(e => e.nombre.toLowerCase() === nombreEtiqueta.toLowerCase())) {
+    if (etiquetas.some(e => e.nombre.toLowerCase() === nombreLimpio.toLowerCase())) {
       alert("Esta etiqueta ya existe");
       return false;
     }
   
-    // Agregar al contexto global
-    const nuevaEtiqueta = {
-      id: Math.max(...etiquetas.map(e => e.id), 0) + 1,
-      nombre: nombreEtiqueta
-    };
-    setEtiquetas([...etiquetas, nuevaEtiqueta]);
-    
-    // Agregar a las seleccionadas
-    setEtiquetasSeleccionadas(prev => [...prev, nombreEtiqueta]);
-    
-    return true;
+    try {
+      // Guardar en el backend
+      const nuevaEtiqueta = await crearEtiqueta(etiquetaData);
+  
+      // Validar la respuesta
+      if (!nuevaEtiqueta || !nuevaEtiqueta.nombre) {
+        throw new Error("No se recibió una etiqueta válida del servidor");
+      }
+  
+      // Actualizar el estado de etiquetas disponibles
+      setEtiquetas(prev => [...prev, nuevaEtiqueta]);
+  
+      // Agregar el NOMBRE de la etiqueta a las seleccionadas
+      setEtiquetasSeleccionadas(prev => [...prev, nuevaEtiqueta.nombre]);
+  
+      return true;
+    } catch (error) {
+      console.error("Error al guardar la etiqueta:", error);
+      alert(`Error: ${error.message || "No se pudo guardar la etiqueta"}`);
+      return false;
+    }
   };
 
   return (

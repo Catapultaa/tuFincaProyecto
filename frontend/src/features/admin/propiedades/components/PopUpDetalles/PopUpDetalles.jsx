@@ -9,13 +9,18 @@ import Indicadores from "../../subcomponents/Indicadores";
 import PopupImages from "../PopupImages";
 import SelectorEtiquetas from "./SelectorEtiquetas";
 import ConfirmDialog from "../../../../../components/ConfirmDialog";
+import MessageDialog from "../../../../../components/MessageDialog";
 
 const PopUpDetalles = ({
   propiedadSeleccionada,
   setPropiedadSeleccionada,
   obtenerNombresEtiquetas,
 }) => {
-  const { actualizarPropiedad, eliminarPropiedad, etiquetas, setEtiquetas } = useGlobalContext();
+  const { actualizarPropiedad, eliminarPropiedad, etiquetas, setEtiquetas, crearEtiqueta } = useGlobalContext();
+  const [showSuccess, setShowSuccess] = useState(false);
+  const [showError, setShowError] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
+  const [successMessage, setSuccessMessage] = useState("");
   const [imagenActual, setImagenActual] = useState(0);
   const [editando, setEditando] = useState(false);
   const [propiedad, setPropiedad] = useState(propiedadSeleccionada);
@@ -27,11 +32,13 @@ const PopUpDetalles = ({
   const handleDelete = async () => {
     try {
       await eliminarPropiedad(propiedad.id);
-      alert("Propiedad eliminada correctamente.");
-      setPropiedadSeleccionada(null); // Cierra el popup
+      setSuccessMessage("Propiedad eliminada correctamente.");
+      setShowSuccess(true);
+      setPropiedadSeleccionada(null);
     } catch (error) {
+      setErrorMessage("Error al eliminar la propiedad. Por favor, inténtalo de nuevo.");
+      setShowError(true);
       console.error("Error al eliminar la propiedad:", error);
-      alert("Hubo un error al eliminar la propiedad. Por favor, inténtalo de nuevo.");
     }
   };
   
@@ -80,14 +87,13 @@ const PopUpDetalles = ({
       });
 
       setPropiedadSeleccionada(propiedadActualizada);
+      setSuccessMessage("Propiedad actualizada correctamente.");
+      setShowSuccess(true);
       setEditando(false);
-
-      alert("Propiedad actualizada correctamente.");
     } catch (error) {
+      setErrorMessage("Hubo un error al actualizar la propiedad. Por favor, inténtalo de nuevo.");
+      setShowError(true);
       console.error("Error al actualizar la propiedad:", error);
-      alert(
-        "Hubo un error al actualizar la propiedad. Por favor, inténtalo de nuevo."
-      );
     }
   };
 
@@ -117,6 +123,47 @@ const PopUpDetalles = ({
       }
       return prev;
     });
+  };
+
+  const onAgregarNuevaEtiqueta = async (etiquetaData) => {
+    const nombreLimpio = etiquetaData.nombre.trim();
+  
+    if (!nombreLimpio) {
+      setErrorMessage("El nombre de la etiqueta no puede estar vacío");
+      setShowError(true);
+      return false;
+    }
+  
+    // Validar que no exista ya
+    if (etiquetas.some((e) => e.nombre.toLowerCase() === nombreLimpio.toLowerCase())) {
+      setErrorMessage("Esta etiqueta ya existe");
+      setShowError(true);
+      return false;
+    }
+  
+    try {
+      // Primero creamos la etiqueta en el backend
+      const etiquetaBackend = await crearEtiqueta({
+        nombre: nombreLimpio,
+        tipoEtiqueta: etiquetaData.tipoEtiqueta
+      });
+  
+      // Luego actualizamos el estado local con la respuesta del backend
+      setEtiquetas((prev) => [...prev, etiquetaBackend]);
+  
+      // Actualizar las etiquetas de la propiedad
+      setPropiedadSeleccionada((prev) => ({
+        ...prev,
+        etiquetas: [...prev.etiquetas, etiquetaBackend.id],
+      }));
+  
+      return true;
+    } catch (error) {
+      setErrorMessage("Error al guardar la etiqueta. Por favor, inténtalo de nuevo.");
+      setShowError(true);
+      console.error("Error al guardar la etiqueta:", error);
+      return false;
+    }
   };
 
   useEffect(() => {
@@ -152,14 +199,16 @@ const PopUpDetalles = ({
         className="relative bg-white p-6 rounded-2xl shadow-2xl max-w-2xl w-full max-h-[80vh] overflow-y-auto"
       >
         {/* Botón de cierre */}
-        <div className="sticky top-0 flex justify-end z-20 pointer-events-none">
-          <button
-            onClick={() => setPropiedadSeleccionada(null)}
-            className="text-gray-600 hover:text-gray-900 cursor-pointer transition bg-white rounded-full p-2 shadow-md pointer-events-auto"
-          >
-            <X size={24} />
-          </button>
-        </div>
+        {!editando && (
+          <div className="sticky top-0 flex justify-end z-20 pointer-events-none">
+            <button
+              onClick={() => setPropiedadSeleccionada(null)}
+              className="text-gray-600 hover:text-gray-900 cursor-pointer transition bg-white rounded-full p-2 shadow-md pointer-events-auto"
+            >
+              <X size={24} />
+            </button>
+          </div>
+        )}
 
         {/* Carrusel de imágenes */}
         <div className="relative">
@@ -321,13 +370,18 @@ const PopUpDetalles = ({
           obtenerNombresEtiquetas={obtenerNombresEtiquetas}
           etiquetas={etiquetas}
           setEtiquetas={setEtiquetas}
+          onAgregarNuevaEtiqueta={onAgregarNuevaEtiqueta} // Pasa la función aquí
         />
       )}
 
       {/* Confirmación de eliminación */}
       {mostrarConfirmacion && (
-        <ConfirmDialog
+        <MessageDialog
+          isOpen={mostrarConfirmacion}
+          type="confirmation"
           message="¿Estás seguro de que deseas eliminar esta propiedad?"
+          confirmText="Eliminar"
+          cancelText="Cancelar"
           onConfirm={() => {
             setMostrarConfirmacion(false);
             handleDelete();
@@ -335,6 +389,22 @@ const PopUpDetalles = ({
           onCancel={() => setMostrarConfirmacion(false)}
         />
       )}
+
+      <MessageDialog
+        isOpen={showSuccess}
+        type="success"
+        message={successMessage}
+        confirmText="Aceptar"
+        onConfirm={() => setShowSuccess(false)}
+      />
+
+      <MessageDialog
+        isOpen={showError}
+        type="error"
+        message={errorMessage}
+        confirmText="Entendido"
+        onConfirm={() => setShowError(false)}
+      />
     </div>
   );
 };

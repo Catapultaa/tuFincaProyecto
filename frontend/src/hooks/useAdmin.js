@@ -6,11 +6,14 @@ import {
   getAdminById,
   createAdmin,
   updateAdmin,
-  deleteAdmin
+  deleteAdmin,
+  login
 } from '../api/admin';
 
 export const useAdmins = () => {
   const [admins, setAdmins] = useState([]);
+  const [adminCache, setAdminCache] = useState({});
+  
   const asyncHandler = useAsyncHandler();
 
   // Obtener todos los administradores
@@ -22,13 +25,20 @@ export const useAdmins = () => {
     });
   };
 
-  // Obtener un administrador por ID
-  const fetchAdminById = async (id) => {
-    return asyncHandler.execute(async () => {
-      const response = await getAdminById(id);
-      return response;
-    });
-  };
+  // Obtener un administrador por ID con caché
+const fetchAdminById = async (id) => {
+  // Verifica si el administrador ya está en caché
+  if (adminCache[id]) {
+    return adminCache[id]; // Devuelve el administrador desde el caché
+  }
+
+  // Si no está en caché, realiza la solicitud al backend
+  return asyncHandler.execute(async () => {
+    const response = await getAdminById(id);
+    setAdminCache((prevCache) => ({ ...prevCache, [id]: response })); // Guarda en caché
+    return response;
+  });
+};
 
   // Crear nuevo administrador
   const saveAdmin = async (adminData) => {
@@ -59,6 +69,18 @@ export const useAdmins = () => {
     });
   };
 
+  const loginAdmin = async (authData) => {
+    return asyncHandler.execute(async () => {
+      try {
+        const response = await login(authData); // Llama al endpoint de login
+        return response; // Devuelve la respuesta del backend
+      } catch (error) {
+        console.error('Error en loginAdmin:', error.message || error);
+        throw error; // Lanza el error para que sea manejado en el cliente
+      }
+    });
+  };
+
   // Cargar administradores al iniciar
   useEffect(() => {
     fetchAdmins();
@@ -70,6 +92,7 @@ export const useAdmins = () => {
     fetchAdmins,
     fetchAdminById,
     saveAdmin,
+    loginAdmin,
     updateAdmin: updateAdminData,
     deleteAdmin: deleteAdminData,
     loading: asyncHandler.loading,

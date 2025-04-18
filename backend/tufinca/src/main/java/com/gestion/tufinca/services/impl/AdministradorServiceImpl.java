@@ -46,12 +46,27 @@ public class AdministradorServiceImpl implements IAdministradorService {
     }
 
     @Override
-    public void saveAdministrador(AdministradorModel administrador) {
-        //validar que el user sea unico
-        //validar que contraseña sea mayor de 4 y menor que 30
+    public AdministradorModel saveAdministrador(AdministradorModel administrador) {
+
+        String contraseña = administrador.getContraseña();
+
+        if (contraseña == null || contraseña.length() < 4 || contraseña.length() > 30) {
+            throw new IllegalArgumentException("La contraseña debe tener entre 5 y 30 caracteres.");
+        }
+
+        // Validar usuario único
+        if (AdministradorDAO.getAdministradorByUsuario(administrador.getUsuario()).isPresent()) {
+            throw new IllegalArgumentException("El nombre de usuario ya está en uso.");
+        }
+
+        // Validar correo único
+        if (AdministradorDAO.getAdministradorByCorreo(administrador.getCorreo()).isPresent()) {
+            throw new IllegalArgumentException("El correo ya está registrado.");
+        }
+
         String contraseñaEncriptada = passwordEncoder.encode(administrador.getContraseña());
         administrador.setContraseña(contraseñaEncriptada);
-        AdministradorDAO.saveAdministrador(administrador);
+        return AdministradorDAO.saveAdministrador(administrador);
     }
 
     @Override

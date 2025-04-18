@@ -1,7 +1,9 @@
 package com.gestion.tufinca.controllers;
 
 import com.gestion.tufinca.controllers.dto.AdministradorDTO;
+import com.gestion.tufinca.controllers.dto.PropiedadDTO;
 import com.gestion.tufinca.models.AdministradorModel;
+import com.gestion.tufinca.models.PropiedadModel;
 import com.gestion.tufinca.services.IAdministradorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -43,6 +45,24 @@ public class AdministradorController {
         //que el response de save en servicio llegue acá
         administradorService.saveAdministrador(buildAdministrador(administradorDTO));
         return ResponseEntity.created(new URI("api/administrador/save")).build();
+    }
+
+    @ExceptionHandler(IllegalArgumentException.class)
+    public ResponseEntity<String> handleIllegalArgumentException(IllegalArgumentException ex) {
+        return ResponseEntity.badRequest().body(ex.getMessage());
+    }
+
+
+    @PutMapping(path="/update/{id}")
+    public ResponseEntity<?> updateAdministrador(@RequestBody AdministradorDTO request, @PathVariable("id") Integer id){
+        Optional<AdministradorModel> administradorOptional = administradorService.getAdministradorById(id);
+        if(administradorOptional.isPresent()){
+            AdministradorModel administradorToUpdate = administradorOptional.get();
+            AdministradorModel administradorActualizado = administradorService.saveAdministrador(setAdministradorUpdateValues(request, administradorToUpdate));
+            AdministradorDTO administradorActualizadoDTO = buildAdministradorDTO(administradorActualizado);
+            return ResponseEntity.ok(administradorActualizadoDTO);
+        }
+        return ResponseEntity.notFound().build();
     }
 
     @DeleteMapping(path="/delete/{id}")
